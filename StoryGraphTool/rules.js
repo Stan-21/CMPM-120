@@ -30,14 +30,22 @@ class Location extends Scene {
                 this.engine.show("&gt; With the rooms illuminated you can now see the writings on the wall.");
             }
         }
+        this.engine.storyData.Hunger -= 0.5;
+        if (this.engine.storyData.Hunger <= 0) {
+            this.engine.show("You died of hunger.  Refresh the page to restart!");
+            this.engine.gotoScene(End);
+        }
         if (locationData.Coins > 0) {
             this.engine.storyData.Money += locationData.Coins;
             this.engine.show("You find some coins.");
             locationData.Coins = 0;
         }
-        this.engine.show("Money: " + this.engine.storyData.Money);
+        this.engine.show("Money: " + this.engine.storyData.Money +  " Hunger: " + this.engine.storyData.Hunger);
         if (key == "10" && this.engine.storyData.Money >= 50) {
             this.engine.addChoice("Exit", { "Text": "Exit", "Target": "Exit"});
+        }
+        if (key == "10" && this.engine.storyData.Money < 50) {
+            this.engine.show("You do not have enough coins, perhaps you can check out the casino and test your luck?");
         }
         if(locationData.hasOwnProperty('Choices')) { // TODO: check if the location has any Choices
             for(let choice of locationData.Choices) { // TODO: loop over the location's Choices
@@ -49,6 +57,10 @@ class Location extends Scene {
                 }
                 // TODO: add a useful second argument to addChoice so that the current code of handleChoice below works
             }
+            if (this.engine.storyData.Hunger <= 5 && this.engine.storyData.Money >= 5) {
+                this.engine.show("Your stomach starts to growl...  <br>  Maybe the coins have some nutritional value?");
+                this.engine.addChoice("Eat", {"Text": "Eat", "Target": key});
+            }
         } else {
             this.engine.addChoice("The end.")
         }
@@ -56,6 +68,10 @@ class Location extends Scene {
 
     handleChoice(choice) {
         if(choice) {
+            if (choice.Text == "Eat") {
+                this.engine.storyData.Money -= 5;
+                this.engine.storyData.Hunger += 2.5;
+            }
             if (choice.Text == "Gamble") {
                 if (this.engine.storyData.Money < 5) {
                     this.engine.show("You're too broke!  You need at least 5 gold to play!");
@@ -78,11 +94,11 @@ class Casino extends Scene {
         if (Math.random() > 0.5) {
             this.engine.storyData.Money = Math.round(this.engine.storyData.Money * 1.5);
             this.engine.show("&gt; You won!");
-            this.engine.show("Money: " + this.engine.storyData.Money);
+            this.engine.show("Money: " + this.engine.storyData.Money +  " Hunger: " + this.engine.storyData.Hunger);
         } else {
             this.engine.storyData.Money = Math.round(this.engine.storyData.Money / 1.5);
             this.engine.show("&gt; You lost!");
-            this.engine.show("Money: " + this.engine.storyData.Money);
+            this.engine.show("Money: " + this.engine.storyData.Money +  " Hunger: " + this.engine.storyData.Hunger);
         }
         if (this.engine.storyData.Money < 5) {
             this.engine.show("You have no more money to gamble.");
@@ -101,7 +117,6 @@ class Casino extends Scene {
 
     handleChoice(choice) {
         if (choice.Text == "continue") {
-            this.engine.show("Money: " + this.engine.storyData.Money);
             this.engine.gotoScene(Casino);
         } else {
             console.log(choice);
