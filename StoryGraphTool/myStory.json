@@ -3,13 +3,13 @@
     "Credits": "Created by Stanley Hung (stchhung@ucsc.edu).",
     "InitialLocation": "1",
     "Money": 10,
-    "Hunger": 15,
+    "Hunger": 15.5,
     "Lamp": false,
     "Key": false,
     "Link": {"Text": "Forward", "Target": "10"},
     "Locations": {
         "1": {
-            "Body": "You wake up in a dim room with no recollection of how you arrived. \n  You find 10 coins on the ground and put it in your pocket.",
+            "Body": "You wake up in a dim room with no recollection of how you arrived. <br>  You find 10 coins on the ground and put it in your pocket. <br> A voice echos, collect 50 coins and find me.  Only then will you be free to leave.",
             "Alt": "You recognize this room.  It's the room you started in.",
             "Coins": 0, 
             "Visited": false,
