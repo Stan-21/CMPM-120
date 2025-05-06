@@ -131,6 +131,7 @@ class Game extends Phaser.Scene {
 
         // Check win
         if ((this.deck.length <= 0) && (my.sprite.enemy.length <= 0)) {
+            this.scene.start("endScene", {score: this.myScore});
         }
     }
 
