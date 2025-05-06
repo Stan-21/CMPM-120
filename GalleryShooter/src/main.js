@@ -22,7 +22,7 @@ let config = {
     backgroundColor: '#35654a',
     width: 800,
     height: 600,
-    scene: [Start, Game, End],
+    scene: [Start, Control, Credits, Game, End],
     fps: {forceSetTimeOut: true, target: 60}
 }
 

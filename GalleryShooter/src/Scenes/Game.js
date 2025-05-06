@@ -6,6 +6,7 @@ class Game extends Phaser.Scene {
         this.my.sprite.bullet = [];
         this.my.sprite.enemy = [];
         this.my.sprite.enemyBullet = [];
+        this.my.spawnPoints = [];
         this.maxBullets = 10;
 
         // Keeping spawn locations as a class variable
@@ -14,6 +15,10 @@ class Game extends Phaser.Scene {
 
         this.myScore = 0;
         this.myLives = 3;
+
+        this.level = 1;
+
+        this.hand = ["D1", "D3", "D4", "D2", "H5"];
 
         this.deck = ["H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "H11", "H12", "H13",
             "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "D11", "D12", "D13",
@@ -28,6 +33,9 @@ class Game extends Phaser.Scene {
     }
 
     init() {
+        this.my.sprite.bullet = [];
+        this.my.sprite.enemy = [];
+        this.my.sprite.enemyBullet = [];
         this.deck = ["H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "H10", "H11", "H12", "H13",
             "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10", "D11", "D12", "D13",
             "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12", "C13",
@@ -39,15 +47,6 @@ class Game extends Phaser.Scene {
     }
 
     preload() {
-        this.load.setPath("./assets/");
-        // body
-        this.load.image("character", "pieceBlue_single00.png");
-        // dice atlas
-        this.load.atlasXML("diceNum", "diceWhite_border.png", "diceWhite_border.xml");
-        // enemy atlas
-        this.load.atlasXML("cards", "cardsLarge_tilemap_packed.png", "cardsLarge_tilemap_packed.xml");
-
-        this.load.audio("shoot", "dieThrow1.ogg");
     }
 
     create() {
@@ -71,6 +70,10 @@ class Game extends Phaser.Scene {
         my.sprite.spawn3 = this.add.sprite(this.spawnX * 3, this.spawnY, "cards", "blankFront.png");
         my.sprite.spawn3.setScale(1.25, 1.25);
 
+        my.spawnPoints.push(my.sprite.spawn1);
+        my.spawnPoints.push(my.sprite.spawn2);
+        my.spawnPoints.push(my.sprite.spawn3);
+
         my.text.lives = this.add.bitmapText(20, 0, "rocketSquare", "Lives: " + this.myLives);
         my.text.score = this.add.bitmapText(580, 0, "rocketSquare", "Score: " + this.myScore);
         my.text.deck = this.add.bitmapText(game.config.width/2, 0, "rocketSquare", "Cards left: " + this.deck.length + " /54").setOrigin(0.5, 0);
@@ -79,6 +82,7 @@ class Game extends Phaser.Scene {
         my.timedEvent = this.time.addEvent({ delay: 1500, callback: this.onEvent, callbackScope: this, loop: true });
         this.shuffle(this.deck);
 
+        this.parseHand();
         // Basic shapes
     }
 
@@ -131,7 +135,7 @@ class Game extends Phaser.Scene {
 
         // Check win
         if ((this.deck.length <= 0) && (my.sprite.enemy.length <= 0)) {
-            this.scene.start("endScene", {score: this.myScore});
+            this.scene.start("endScene", {score: this.myScore, status: "win"});
         }
     }
 
@@ -146,7 +150,7 @@ class Game extends Phaser.Scene {
         this.myLives += dmg;
         my.text.lives.setText("Lives: " + this.myLives);
         if (this.myLives <= 0) {
-            this.scene.start("endScene", {score: this.myScore});
+            this.scene.start("endScene", {score: this.myScore, status: "lose"});
         }
     }
 
@@ -166,6 +170,7 @@ class Game extends Phaser.Scene {
                     var enemy = new Joker(this, this.spawnX * i, 80, "cards", card + ".png", 1, 5);
                 } else {
                     var enemy = new Enemy(this, this.spawnX * i, 80, "cards", card + ".png", 1, 5);
+                    //my.sprite.enemy.push(enemy.firstNum);
                 }
                 enemy.setScale(1);
                 my.text.deck.setText("Cards left: " + this.deck.length + " /54");
@@ -209,5 +214,48 @@ class Game extends Phaser.Scene {
             rotationOffset: -90,
         });
         my.sprite.enemyBullet.push(my.sprite.enemyShip);
+    }
+
+    parseHand() {
+        let num_array = [];
+        let suit_set = new Set();
+        let result = [];
+        for (let i of this.hand) {
+            num_array.push(parseInt(i.substring(1)));
+            suit_set.add(i[0]);
+        }
+        num_array.sort();
+        console.log(suit_set);
+        console.log(num_array);
+        if (suit_set.size == 1) {
+            result.push("flush");
+            console.log(result);
+            return;
+        }
+        if (this.checkStraight(num_array)) { // Straight check
+            result.push("straight");
+            console.log(result);
+            return;
+        }
+
+        /*if (this.hand[0][1] == this.hand[1][1]) {
+            result.push("pair");
+            num_array.unshift();
+            num_array.unshift();
+        } 
+        for (let i = 0; i < num_array; i++) {
+            result.push("high");
+        }
+        console.log(result);*/
+    }
+
+    checkStraight(arr) {
+        let n = arr.length;
+        for (let i = 1; i < n; i++) {
+            if (arr[i] !== arr[i - 1] + 1) {
+                return false;
+            }
+        }
+        return true;
     }
 }
