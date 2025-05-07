@@ -173,11 +173,11 @@ class Game extends Phaser.Scene {
                     var enemy = new Joker(this, this.spawnX * i, 80, "cards", card + ".png", 1, 5);
                 } else if (parseInt(card.substring(1)) > 10)  {
                     this.points = [
-                        this.spawnX, 80,
-                        this.spawnX * 3, my.sprite.player.y
+                        this.spawnX * i, 80,
+                        my.sprite.player.x, my.sprite.player.y
                     ];
                     this.curve = new Phaser.Curves.Spline(this.points);
-                    my.sprite.enemyShip = this.add.follower(this.curve, this.spawnX, 80, "cards", card + ".png");
+                    my.sprite.enemyShip = this.add.follower(this.curve, this.spawnX * i, 80, "cards", card + ".png");
                     my.sprite.enemyShip.startFollow({
                         from: 0,
                         to: 1,
