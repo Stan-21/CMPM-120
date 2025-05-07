@@ -101,10 +101,13 @@ class Game extends Phaser.Scene {
         for (let bullet of my.sprite.bullet) {
             for (let enemy of my.sprite.enemy) {
                 if (this.collides(bullet, enemy)) {
-                    enemy.takeDamage(bullet.dmg);
+                    //enemy.takeDamage(bullet.dmg);
                     //console.log("hit");
+                    enemy.active = false;
+                    enemy.destroy();
                     bullet.active = false;
                     bullet.destroy();
+                    this.updateScore(5);
                 }
             }
         }
@@ -168,6 +171,27 @@ class Game extends Phaser.Scene {
                 let card = this.deck.shift();
                 if (card == "rJ" || card == "bJ") {
                     var enemy = new Joker(this, this.spawnX * i, 80, "cards", card + ".png", 1, 5);
+                } else if (parseInt(card.substring(1)) > 10)  {
+                    this.points = [
+                        this.spawnX, 80,
+                        this.spawnX * 3, my.sprite.player.y
+                    ];
+                    this.curve = new Phaser.Curves.Spline(this.points);
+                    my.sprite.enemyShip = this.add.follower(this.curve, this.spawnX, 80, "cards", card + ".png");
+                    my.sprite.enemyShip.startFollow({
+                        from: 0,
+                        to: 1,
+                        delay: 0,
+                        duration: 2000,
+                        ease: 'Sine.easeInOut',
+                        repeat: 0,
+                        yoyo: false,
+                        rotateToPath: true,
+                        rotationOffset: -90,
+                    });
+                    my.sprite.enemyBullet.push(my.sprite.enemyShip);
+                    my.sprite.enemy.push(my.sprite.enemyShip);
+                    continue;
                 } else {
                     var enemy = new Enemy(this, this.spawnX * i, 80, "cards", card + ".png", 1, 5);
                     //my.sprite.enemy.push(enemy.firstNum);
