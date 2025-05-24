@@ -77,11 +77,11 @@ class Monster extends Phaser.Scene {
         
         this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        let dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F); // Event inputs
+        let fKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F); // Event inputs
         let sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
 
         // Event input: dimple smile
-        dKey.on('down', (key, event) => {
+        fKey.on('down', (key, event) => {
             my.sprite.mouth.setTexture("monsterParts", "mouth_closed_fangs.png");
         });
 
@@ -100,7 +100,7 @@ class Monster extends Phaser.Scene {
         }
 
         
-        if (this.sKey.isDown) {
+        if (this.aKey.isDown) {
             for (let i in my.sprite) {
                 my.sprite[i].x -= 1;
             }
