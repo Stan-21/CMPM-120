@@ -9,20 +9,24 @@
     ],
     "fileStates": {
         "": {
-            "scaleInDock": 3,
-            "scaleInEditor": 3
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
         },
         "platformer-level-1.tmx": {
-            "scale": 5.5,
-            "selectedLayer": 6,
+            "scale": 1.5,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 157.45454545454544,
-                "y": 337
+                "x": 668.6666666666666,
+                "y": 205.66666666666669
             }
         },
         "platformer-level-1.tmx#monochrome_tilemap_packed": {
             "scaleInDock": 2,
             "scaleInEditor": 3
+        },
+        "platformer-level-1.tmx#monochrome_tilemap_transparent_packed": {
+            "scaleInDock": 2,
+            "scaleInEditor": 1
         }
     },
     "last.exportedFilePath": "C:/Users/shung/Downloads/CMPM-120/ThePlatformer/assets",

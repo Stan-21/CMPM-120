@@ -11,11 +11,13 @@ class Platformer extends Phaser.Scene {
         this.JUMP_VELOCITY = -400;
         this.PARTICLE_VELOCITY = 50;
         this.SCALE = 2.0;
+        this.time = 0;
     }
 
     create() {
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
         // 45 tiles wide and 25 tiles tall.
+        this.gemCount = 0;
         this.map = this.add.tilemap("platformer-level-1", 16, 16, 80, 20);
 
         // Add a tileset to the map
@@ -23,12 +25,15 @@ class Platformer extends Phaser.Scene {
         // Second parameter: key for the tilesheet (from this.load.image in Load.js)
         this.tileset = this.map.addTilesetImage("monochrome_tilemap_packed", "tilemap_tiles");
 
+        this.backgroundLayer = this.map.createLayer("Background", this.tileset, -100, 50).setScale(0.7).setScrollFactor(0.8);
+        this.background1Layer = this.map.createLayer("Background1", this.tileset, -100, 35).setScale(1.0).setScrollFactor(1.2);
         // Create a layer
         this.groundLayer = this.map.createLayer("Floors-N-Platforms", this.tileset, 0, 0);
         this.lConveyorLayer = this.map.createLayer("Left Belt", this.tileset, 0, 0);
         this.rConveyorLayer = this.map.createLayer("Right Belt", this.tileset, 0, 0);
         this.signLayer = this.map.createLayer("Signs and Extras", this.tileset, 0, 0);
         this.spikeLayer = this.map.createLayer("Spikes", this.tileset, 0, 0);
+
 
         // Make it collidable
         this.groundLayer.setCollisionByProperty({
@@ -75,7 +80,12 @@ class Platformer extends Phaser.Scene {
 
         // Coin collision handler
         this.physics.add.overlap(my.sprite.player, this.gemGroup, (obj1, obj2) => {
-            this.sound.play("gemSound");
+            this.gemCount++;
+            if (this.gemCount % 5 == 0 && this.gemCount != 0) {
+                this.sound.play("finishSound");
+            } else {
+                this.sound.play("gemSound");
+            }
             obj2.destroy(); // remove coin on overlap
         });
 
@@ -127,6 +137,20 @@ class Platformer extends Phaser.Scene {
     }
 
     update() {
+
+        this.time += 1;
+        if (this.time > 100) {
+            this.backgroundLayer.x += 0.1;
+            this.background1Layer.x -= 0.3;
+        } else {
+            this.backgroundLayer.x -= 0.1;
+            this.background1Layer.x += 0.3;
+        }
+
+        if (this.time > 200) {
+            this.time = 0;
+        }
+
         
         if(cursors.left.isDown) {
             my.sprite.player.setAccelerationX(-this.ACCELERATION);
@@ -144,7 +168,6 @@ class Platformer extends Phaser.Scene {
             my.vfx.walking.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
             my.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
             my.vfx.walking.start();
-
         } else {
             // Set acceleration to 0 and have DRAG take over
             my.sprite.player.setAccelerationX(0);
