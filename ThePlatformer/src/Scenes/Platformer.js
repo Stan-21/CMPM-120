@@ -34,6 +34,8 @@ class Platformer extends Phaser.Scene {
         this.signLayer = this.map.createLayer("Signs and Extras", this.tileset, 0, 0);
         this.spikeLayer = this.map.createLayer("Spikes", this.tileset, 0, 0);
 
+        this.movingLayer = this.map.createLayer("Moving Platform", this.tileset, 0, 0);
+
 
         // Make it collidable
         this.groundLayer.setCollisionByProperty({
@@ -50,6 +52,10 @@ class Platformer extends Phaser.Scene {
         this.rConveyorLayer.setCollisionByProperty({
             collides: true
         });
+
+        this.movingLayer.setCollisionByProperty({
+            collides: true
+        })
 
         this.gems = this.map.createFromObjects("Gems", {
             name: "gem",
@@ -76,6 +82,13 @@ class Platformer extends Phaser.Scene {
         });
         this.physics.add.collider(my.sprite.player, this.rConveyorLayer, (obj1, obj2) => {
             my.sprite.player.body.setVelocityX(50);
+        });
+        this.physics.add.collider(my.sprite.player, this.movingLayer, (obj1, obj2) => {
+            if (this.time > 100) {
+                my.sprite.player.body.setVelocityX(75);
+            } else {
+                my.sprite.player.body.setVelocityX(-75);
+            }
         });
 
         // Coin collision handler
@@ -142,9 +155,11 @@ class Platformer extends Phaser.Scene {
         if (this.time > 100) {
             this.backgroundLayer.x += 0.1;
             this.background1Layer.x -= 0.3;
+            this.movingLayer.x += 0.5;
         } else {
             this.backgroundLayer.x -= 0.1;
             this.background1Layer.x += 0.3;
+            this.movingLayer.x -= 0.5;
         }
 
         if (this.time > 200) {
