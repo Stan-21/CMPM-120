@@ -19,6 +19,12 @@ class Pause extends Phaser.Scene {
         });
         my.startButton.on('pointerout', () => { my.startButton.setStyle({fill: '#0f0' }) });
         my.startButton.on('pointerover', () => { my.startButton.setStyle({fill: '#ff0' }) });
+
+        let pKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+        pKey.on('down', (key, event) => {
+            this.scene.resume("gameScene");
+            this.scene.stop(); 
+        });
         
     }
 }

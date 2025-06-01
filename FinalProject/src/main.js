@@ -19,10 +19,20 @@ let config = {
     render: {
         pixelArt: true  // prevent pixel art from getting blurred when scaled
     },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false,
+            gravity: {
+                x: 0,
+                y: 0
+            }
+        }
+    },
     backgroundColor: '#00000',
     width: 800,
     height: 600,
-    scene: [Start, Control, Credits, Game, End],
+    scene: [Start, Control, Credits, Game, Pause, Upgrade, End],
     fps: {forceSetTimeOut: true, target: 60}
 }
 

@@ -12,6 +12,8 @@ class Ball extends Phaser.GameObjects.Sprite {
         this.velocityX = ballSpeed;
         this.velocityY = ballSpeed;
 
+        this.ballSpeed = ballSpeed;
+
         return this;
     }
 

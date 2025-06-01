@@ -35,4 +35,19 @@ class Player extends Phaser.GameObjects.Sprite {
         }
     }
 
+    speedFunction() {
+        this.playerSpeed += 5;
+        console.log("+speed");
+    }
+
+    sizeFunction() {
+        this.displayWidth += 50;
+        console.log("+size");
+    }
+
+    scoreFunction() {
+        this.scene.updateScore(this.x < game.config.width / 2);
+        console.log("+score");
+    }
+
 }
