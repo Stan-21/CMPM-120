@@ -14,6 +14,8 @@ class Ball extends Phaser.GameObjects.Sprite {
 
         this.ballSpeed = ballSpeed;
 
+        this.MAXSPEED = 10;
+
         return this;
     }
 

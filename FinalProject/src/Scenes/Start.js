@@ -11,26 +11,9 @@ class Start extends Phaser.Scene {
         this.load.setPath("./assets/");
         // body
         this.load.image("character", "paddle.png");
-        // dice atlas
-        this.load.atlasXML("diceNum", "diceWhite_border.png", "diceWhite_border.xml");
-        // enemy atlas
-        this.load.atlasXML("cards", "cardsLarge_tilemap_packed.png", "cardsLarge_tilemap_packed.xml");
 
-        this.load.audio("shoot", "dieThrow1.ogg");
-
-        const asyncLoader = () => new Promise(() => {
-            setTimeout(() => {
-            }, 2000)
-        });
-    
-        const doStuff = async () => {
-            await asyncLoader();
-            
-        };
     
         this.load.image('image', 'ball.png');
-        doStuff();
-        this.load.image('image3', 'chipBlueWhite_border.png');
     }
 
     create() {
@@ -57,7 +40,18 @@ class Start extends Phaser.Scene {
         my.creditButton.on('pointerout', () => { my.creditButton.setStyle({fill: '#0f0' }) });
         my.creditButton.on('pointerover', () => { my.creditButton.setStyle({fill: '#ff0' }) });
 
-        //this.scene.start("upgradeScene");
-        
+        //this.scene.start("upgradeScene"); 
+    }
+}
+
+function shuffle(array) {
+    let currentIndex = array.length;
+
+    while (currentIndex!=0) {
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
     }
 }

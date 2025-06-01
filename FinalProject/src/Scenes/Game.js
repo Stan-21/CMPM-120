@@ -10,7 +10,6 @@ class Game extends Phaser.Scene {
         this.maxBullets = 10;
 
         this.running = false;
-
     }
 
     init() {
@@ -47,9 +46,9 @@ class Game extends Phaser.Scene {
         my.sprite.ball = new Ball(this, game.config.width / 2, game.config.height / 2, "image", null, 5); // Create ball
 
         // Start the game on click
-        this.input.on('pointerdown', () => {
+        /*this.input.on('pointerdown', () => {
             this.running = true;
-        });
+        });*/
 
         let pKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         pKey.on('down', (key, event) => {
@@ -58,6 +57,11 @@ class Game extends Phaser.Scene {
         });
 
         this.createUpgrades();
+
+        my.sprite.bumper = new Player(this, game.config.width/2, game.config.height/4, "character", null,
+            this.p2Up, this.p2Down, 10);
+        my.sprite.bumper.displayHeight = 25;
+        my.sprite.bumper.displayWidth = 25;
     }
 
     update() {
@@ -86,18 +90,30 @@ class Game extends Phaser.Scene {
             }
         }
 
+        if (this.collides(my.sprite.bumper, my.sprite.ball)) {
+            this.calculateAngle(my.sprite.bumper, my.sprite.ball);
+        }
+
         if ((my.sprite.ball.x <= 0) || (my.sprite.ball.x > game.config.width)) {
             this.updateScore(my.sprite.ball.x > game.config.width);
-            console.log(this.upgrade_data);
+            if ((my.sprite.player1.score >= 7) || (my.sprite.player2.score >= 7)) {
+                this.scene.start('endScene', {p1Wins: my.sprite.player1.score >= 7});
+                return;
+            }
             this.scene.launch('upgradeScene', {p1Wins: my.sprite.ball.x > game.config.width, upgrades: this.upgrade_data,
                 player1: my.sprite.player1, player2: my.sprite.player2
             });
             this.scene.pause();
+            console.log("adsf");
             my.sprite.ball.x = game.config.width / 2;
             my.sprite.ball.y = my.sprite.player1.y = my.sprite.player2.y = game.config.height / 2;
             my.sprite.ball.velocityX *= -1;
+            my.sprite.ball.MAXSPEED = 10;
             this.running = false;
-            this.sleep(1000).then(() => {
+        }
+
+        if (!this.running) {
+            this.sleep(2000).then(() => {
                 this.running = true;
             });
         }
@@ -113,8 +129,9 @@ class Game extends Phaser.Scene {
         var relativeIntersectY = a.y - b.y;
         var normalizedRelativeIntersectionY = (relativeIntersectY/(a.displayWidth/2));
         var bounceAngle = normalizedRelativeIntersectionY * (5*Math.PI/12);
-        b.velocityX = 10*Math.cos(bounceAngle);
-        b.velocityY = 10*-Math.sin(bounceAngle);
+        b.velocityX = b.MAXSPEED*Math.cos(bounceAngle);
+        b.velocityY = b.MAXSPEED*-Math.sin(bounceAngle);
+        b.MAXSPEED *= 1.05;
     }
 
     updateScore(p1Win) {

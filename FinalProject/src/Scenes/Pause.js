@@ -23,7 +23,7 @@ class Pause extends Phaser.Scene {
         let pKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
         pKey.on('down', (key, event) => {
             this.scene.resume("gameScene");
-            this.scene.stop(); 
+            this.scene.stop();
         });
         
     }
