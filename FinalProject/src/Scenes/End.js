@@ -17,6 +17,7 @@ class End extends Phaser.Scene {
     }
 
     create() {
+        // Displays text for end screen as well as the winner
         let my = this.my;
         my.text.gameName = this.add.bitmapText(game.config.width/2, game.config.height/4, "rocketSquare", this.status + "wins!").setOrigin(0.5, 0.5);
         //my.score = this.add.text(game.config.width/2, game.config.height/2.5, "Final score: " + this.finalScore, 

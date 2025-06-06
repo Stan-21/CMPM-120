@@ -25,7 +25,6 @@ class Ball extends Phaser.GameObjects.Sprite {
 
         if (this.y < 0 || this.y > game.config.height) {
             this.velocityY *= -1;
-            //this.scene.sound.play("hit");
         }
     }
 

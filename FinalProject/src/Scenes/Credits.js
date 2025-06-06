@@ -8,6 +8,7 @@ class Credits extends Phaser.Scene {
         let my = this.my;
         my.text.gameName = this.add.bitmapText(game.config.width/2, game.config.height/4.5, "rocketSquare", "Credits!").setOrigin(0.5, 0.5);
         my.text.gameName.setScale(1.25, 1.25);
+        // Creates scrolling text for credits
         const content = [
             'Game Design: Stanley Hung',
             '',
@@ -42,6 +43,7 @@ class Credits extends Phaser.Scene {
 
         my.text.setMask(my.mask);
 
+        // Return to start screen
         my.backButton = this.add.text(game.config.width / 8, game.config.height/10 * 9, "Back", {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
         my.backButton.setInteractive();
         my.backButton.on('pointerdown', () => { this.scene.start("startScene") });
@@ -52,6 +54,7 @@ class Credits extends Phaser.Scene {
     }
 
     update() {
+        // Update scrolling text
         this.my.text.y += -1.5;
         console.log(this.my.text.y);
         if (this.my.text.y <= -50) {

@@ -4,6 +4,7 @@ class Load extends Phaser.Scene {
     }
 
     preload() {
+        // Load required assets
         this.load.setPath("./assets/");
         this.load.bitmapFont("rocketSquare", "KennyRocketSquare_0.png", "KennyRocketSquare.fnt");
 
@@ -21,6 +22,7 @@ class Load extends Phaser.Scene {
 
     create() {
 
+        // I did make background music, but didn't really feel like it fit that well which is why this is commented out
         /*let bg = this.sound.add("music");
         bg.loop = true;
         bg.play();*/

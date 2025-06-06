@@ -5,6 +5,7 @@ class Upgrade extends Phaser.Scene {
     }
 
     init(data) {
+        // Set needed information from the game scene here
         this.p1Wins = data.p1Wins;
         this.p1 = data.player1;
         this.p2 = data.player2;
@@ -27,11 +28,13 @@ class Upgrade extends Phaser.Scene {
         let my = this.my;
         my.text.gameName = this.add.bitmapText(game.config.width/2, game.config.height/4, "rocketSquare", "Player" + this.buffTarget[6] + "!  Choose an upgrade!").setOrigin(0.5, 0.5);
 
+        // Define key colors
         var WHITE = 0xFFFFFF;
-        var RED = 0xA9A9A9;
+        var GREY = 0xA9A9A9;
         var graphics = this.add.graphics();
         graphics.fillStyle(WHITE, 1);
 
+        // Displays all the text and boxes for upgrades
         var slot1 = new Phaser.Geom.Rectangle(game.config.width/8 * 2 - 75, game.config.height / 2 - 100, 150, 175);
         var slot1Zone = this.add.zone(slot1.x + 75, slot1.y + 87.5, 150, 175).setInteractive();
         this.add.text(slot1.x + 75, slot1.y, this.upgrade_data[0][0], {fill: '#fff', fontSize: 30}).setOrigin(0.5, 0.0);
@@ -45,6 +48,7 @@ class Upgrade extends Phaser.Scene {
         this.add.text(slot3.x + 75, slot1.y + 40, this.upgrade_data[2][1], {fill: '#fff', fontSize: 16, align: 'center'}).setOrigin(0.5, 0.0);
         var slot3Zone = this.add.zone(slot3.x + 75, slot3.y + 87.5, 150, 175).setInteractive();
 
+        // Handles all the input / clicks for upgrades
         slot1Zone.on('pointerdown', () => { eval(this.buffTarget+this.upgrade_data[0][2]);
             this.scene.resume("gameScene");
             this.scene.stop(); 
@@ -56,7 +60,7 @@ class Upgrade extends Phaser.Scene {
         });
 
         slot1Zone.on('pointerout', () => {
-            graphics.lineStyle(5, RED, 1);
+            graphics.lineStyle(5, GREY, 1);
             graphics.strokeRectShape(slot1);
         });
 
@@ -71,7 +75,7 @@ class Upgrade extends Phaser.Scene {
         });
 
         slot2Zone.on('pointerout', () => {
-            graphics.lineStyle(5, RED, 1);
+            graphics.lineStyle(5, GREY, 1);
             graphics.strokeRectShape(slot2);
         });
 
@@ -86,11 +90,12 @@ class Upgrade extends Phaser.Scene {
         });
 
         slot3Zone.on('pointerout', () => {
-            graphics.lineStyle(5, RED, 1);
+            graphics.lineStyle(5, GREY, 1);
             graphics.strokeRectShape(slot3);
         });
         
-        graphics.fillStyle(RED, 1);
+        // More code for displaying boxes
+        graphics.fillStyle(GREY, 1);
         graphics.fillRectShape(slot1);
         graphics.fillRectShape(slot2);
         graphics.fillRectShape(slot3);

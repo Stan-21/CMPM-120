@@ -18,6 +18,7 @@ class Game extends Phaser.Scene {
     init() {
         let my = this.my;
         
+        // Create text for score
         my.text.p1Score = this.add.bitmapText(game.config.width/3, game.config.height/6, "rocketSquare", "0").setOrigin(0.5, 0.5).setScale(3);
         my.text.p2Score = this.add.bitmapText(game.config.width/3 * 2, game.config.height/6, "rocketSquare", "0").setOrigin(0.5, 0.5).setScale(3);
 
@@ -40,6 +41,7 @@ class Game extends Phaser.Scene {
         my.sprite.player2.setScale(2);
         my.sprite.player2.displayWidth = 100;
 
+        // Create center line
         var graphics = this.add.graphics();
         graphics.fillStyle(0xFFFFFF, 1);
         this.centerLine = new Phaser.Geom.Rectangle(game.config.width/2 - 2.5, 0, 5, game.config.height);
@@ -75,9 +77,8 @@ class Game extends Phaser.Scene {
 
         this.createUpgrades();
 
-
-
-        this.vfx = this.add.particles(0, 0, "image", {
+        // Create particles
+        this.vfx = this.add.particles(0, 0, "image", { // Ball trail
             alpha: 0.5,
             follow: my.sprite.ball,
             followOffset: {x: -1, y: -1},
@@ -88,7 +89,7 @@ class Game extends Phaser.Scene {
             advance: 2000
         });
 
-        this.p1vfx = this.add.particles(0, 0, "image", {
+        this.p1vfx = this.add.particles(0, 0, "image", { // Plays when player 2 scores
             alpha: {start: 1, end: 0, ease: 'sine.in'},
             lifespan: 1000,
             y: {min: 0, max: 100},
@@ -99,7 +100,7 @@ class Game extends Phaser.Scene {
             emitting: false
         });
 
-        this.p2vfx = this.add.particles(game.config.width, 0, "image", {
+        this.p2vfx = this.add.particles(game.config.width, 0, "image", { // Players when player 1 scores
             alpha: {start: 1, end: 0, ease: 'sine.in'},
             lifespan: 1000,
             y: {min: 0, max: 100},
@@ -113,6 +114,7 @@ class Game extends Phaser.Scene {
 
     update() {
         let my = this.my;    // create an alias to this.my for readability
+        // Update player and ball
         my.sprite.player1.update();
         my.sprite.player2.update();
         if (this.running) {
@@ -120,7 +122,7 @@ class Game extends Phaser.Scene {
         }
 
 
-        if (my.sprite.ball.velocityX < 0) {
+        if (my.sprite.ball.velocityX < 0) { // Check collision of player 1, but only if moving left
             if (this.collides(my.sprite.player1, my.sprite.ball)) {
                 this.calculateAngle(my.sprite.player1, my.sprite.ball);
                 this.sound.play("hit");
@@ -130,7 +132,7 @@ class Game extends Phaser.Scene {
             }
         }
 
-        if (my.sprite.ball.velocityX > 0) {
+        if (my.sprite.ball.velocityX > 0) { // Check collision of player 2, but only if moving right
             if (this.collides(my.sprite.player2, my.sprite.ball)) {
                 this.calculateAngle(my.sprite.player2, my.sprite.ball);
                 this.sound.play("hit");
@@ -140,13 +142,13 @@ class Game extends Phaser.Scene {
             }
         }
 
-        for (let bumper of this.my.bumpers) {
+        for (let bumper of this.my.bumpers) { // Check collision of bumpers if any
             if (this.collides(bumper, my.sprite.ball)) {
                 this.calculateAngle(bumper, my.sprite.ball);
             }
         }
 
-        if (this.running) {
+        if (this.running) { // Check if a player has scored
             if ((my.sprite.ball.x <= -10) || (my.sprite.ball.x > game.config.width + 10)) {
                 this.updateScore(my.sprite.ball.x > game.config.width);
                 this.running = false;
@@ -170,13 +172,13 @@ class Game extends Phaser.Scene {
         }
     }
 
-    collides(a, b) {
+    collides(a, b) { // Check for collisions
         if (Math.abs(a.x - b.x) > (a.displayHeight/2 + b.displayWidth/2)) return false;
         if (Math.abs(a.y - b.y) > (a.displayWidth/2 + b.displayHeight/2)) return false;
         return true;
     }
 
-    calculateAngle(a, b) {
+    calculateAngle(a, b) { // Calculate angle when ball collides with paddle
         var relativeIntersectY = a.y - b.y;
         var normalizedRelativeIntersectionY = (relativeIntersectY/(a.displayWidth/2));
         var bounceAngle = normalizedRelativeIntersectionY * (5*Math.PI/12);
@@ -185,7 +187,7 @@ class Game extends Phaser.Scene {
         b.MAXSPEED *= 1.05;
     }
 
-    updateScore(p1Win) {
+    updateScore(p1Win) { // Update score depending on who scored
         let my = this.my
         this.sound.play("score");
         if (p1Win) {
@@ -201,11 +203,11 @@ class Game extends Phaser.Scene {
         }
     }
 
-    sleep(ms) {
+    sleep(ms) { // Delays action
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    createUpgrades() {
+    createUpgrades() { // Creates upgrades which would be sent to the upgrade scene
         this.plus_speed = ['Move +', 'Increase paddle\nmovement speed', 'speedFunction()'];
         this.plus_size = ['Size +', 'Increase size\n of paddle', 'sizeFunction()'];
         this.plus_score = ['Score +', 'Increase player\n score', 'scoreFunction()'];
@@ -214,7 +216,7 @@ class Game extends Phaser.Scene {
         this.upgrade_data = [this.plus_speed, this.plus_size, this.plus_score, this.add_bumper];
     }
 
-    createBumper(minX, maxX) {
+    createBumper(minX, maxX) { // Creates a bumper at a certain x range
         let bump = new Player(this, randomInt(minX, maxX), randomInt(0, game.config.height), "character", null,
             this.p2Up, this.p2Down, 10);
         bump.displayHeight = 25;

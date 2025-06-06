@@ -4,30 +4,14 @@ class Control extends Phaser.Scene {
         this.my = {sprite: {}, text: {}};
     }
 
-    preload() { // assets will be loaded in Start, delete later to not double load yknow
-        this.load.setPath("./assets/");
-        this.load.bitmapFont("rocketSquare", "KennyRocketSquare_0.png", "KennyRocketSquare.fnt");
-
-        this.load.setPath("./assets/");
-        // body
-        this.load.image("character", "pieceBlue_single00.png");
-        // dice atlas
-        this.load.atlasXML("diceNum", "diceWhite_border.png", "diceWhite_border.xml");
-        // enemy atlas
-        this.load.atlasXML("cards", "cardsLarge_tilemap_packed.png", "cardsLarge_tilemap_packed.xml");
-
-        this.load.audio("shoot", "dieThrow1.ogg");
+    preload() { 
     }
 
     create() {
+        // Creates all the text for the controls scene
         let my = this.my;
         my.text.gameName = this.add.bitmapText(game.config.width/4, game.config.height/8, "rocketSquare", "Pong!  \nWith upgrades!").setOrigin(0.5, 0.5);
         my.text.gameName.rotation = 25;
-
-        /*my.card1 = this.add.sprite(125, 175, "cards", "S1.png");
-        my.card2 = this.add.sprite(175, 175, "cards", "D13.png");
-        my.card3 = this.add.sprite(225, 175, "cards", "C5.png");
-        my.card4 = this.add.sprite(275, 175, "cards", "H2.png");*/
 
         my.text.controls = this.add.bitmapText(game.config.width/4*2.8, game.config.height/3.5, "rocketSquare", "P1 use W & S to move!").setOrigin(0.5, 0.5);
         my.text.controls.rotation = -25;
@@ -35,18 +19,9 @@ class Control extends Phaser.Scene {
         my.text.controls1.setScale(0.70, 0.70);
         my.text.controls1.rotation = -25;
 
-        //my.demoPlayer = this.add.sprite(550, 300, "character");
-        //my.demoAttack = this.add.sprite(550, 240, "diceNum", "dieWhite_border6.png");
-        //my.demoAttack.setScale(0.5, 0.5);
-
         my.text.joker = this.add.bitmapText(game.config.width/3.5, game.config.height/2, "rocketSquare", "If you lose, get an upgrade!").setOrigin(0.5, 0.5);
         my.text.joker.setScale(0.65, 0.65);
         my.text.joker.rotation = 25;
-
-        /*my.jokerR = this.add.sprite(125, 400, "cards", "rJ.png");
-        my.jokerB = this.add.sprite(175, 400, "cards", "bJ.png");
-        my.jProjectile = this.add.sprite(240, 400, "cards", "blankFront.png");
-        my.jProjectile.rotation = Math.PI / 2;*/
 
         my.text.border = this.add.bitmapText(game.config.width/4*2.8, game.config.height/4*3.1, "rocketSquare", "First to 7 wins!").setOrigin(0.5, 0.5);
         my.text.border.setScale(0.5, 0.5);
@@ -54,6 +29,7 @@ class Control extends Phaser.Scene {
         this.add.rectangle(game.config.width/2, game.config.height, game.config.width, game.config.height/5 * 2, 0xff0000);
 
 
+        // Go directly to start or game scene
         my.backButton = this.add.text(game.config.width / 8, game.config.height/10 * 9, "Back", {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
         my.backButton.setInteractive();
         my.backButton.on('pointerdown', () => { this.scene.start("startScene") });

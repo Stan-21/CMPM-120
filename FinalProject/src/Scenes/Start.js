@@ -31,8 +31,6 @@ class Start extends Phaser.Scene {
         my.creditButton.on('pointerout', () => { my.creditButton.setStyle({fill: '#0f0' }) });
         my.creditButton.on('pointerover', () => { my.creditButton.setStyle({fill: '#ff0' }) });
 
-        //this.scene.start("upgradeScene"); 
-
         this.vfx = this.add.particles(game.config.width, 100, "image", {
             alpha: {start: 1, end: 0, ease: 'sine.in'},
             lifespan: 1000,
@@ -50,6 +48,7 @@ class Start extends Phaser.Scene {
     }
 }
 
+// Useful helper functions
 function shuffle(array) {
     let currentIndex = array.length;
 

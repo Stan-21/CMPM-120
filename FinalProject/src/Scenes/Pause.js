@@ -13,7 +13,7 @@ class Pause extends Phaser.Scene {
         my.resumeButton = this.add.text(game.config.width/2, game.config.height/2.5, 'Resume', {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
         my.resumeButton.setInteractive();
 
-        my.resumeButton.on('pointerdown', () => { 
+        my.resumeButton.on('pointerdown', () => { // Resumes the game
             this.scene.resume("gameScene");
             this.scene.stop(); 
         });
@@ -23,7 +23,7 @@ class Pause extends Phaser.Scene {
         my.quitButton = this.add.text(game.config.width/2, game.config.height/2, 'Quit', {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
         my.quitButton.setInteractive();
 
-        my.quitButton.on('pointerdown', () => { 
+        my.quitButton.on('pointerdown', () => { // Quits out of the game
             this.scene.stop("gameScene");
             this.scene.start("startScene"); 
         });
@@ -31,7 +31,7 @@ class Pause extends Phaser.Scene {
         my.quitButton.on('pointerover', () => { my.quitButton.setStyle({fill: '#ff0' }) });
 
         let pKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
-        pKey.on('down', (key, event) => {
+        pKey.on('down', (key, event) => { // Also resume the game if p key is clicked
             this.scene.resume("gameScene");
             this.scene.stop();
         });
