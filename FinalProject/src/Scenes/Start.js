@@ -5,15 +5,6 @@ class Start extends Phaser.Scene {
     }
 
     preload() {
-        this.load.setPath("./assets/");
-        this.load.bitmapFont("rocketSquare", "KennyRocketSquare_0.png", "KennyRocketSquare.fnt");
-
-        this.load.setPath("./assets/");
-        // body
-        this.load.image("character", "paddle.png");
-
-    
-        this.load.image('image', 'ball.png');
     }
 
     create() {
@@ -36,11 +27,26 @@ class Start extends Phaser.Scene {
         my.creditButton = this.add.text(game.config.width/2, game.config.height/1.8, 'Credits', {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
         my.creditButton.setInteractive();
 
-        my.creditButton.on('pointerdown', () => { this.scene.start("creditsScene") });
+        my.creditButton.on('pointerdown', () => { this.scene.start("creditsScene"), bg.stop() });
         my.creditButton.on('pointerout', () => { my.creditButton.setStyle({fill: '#0f0' }) });
         my.creditButton.on('pointerover', () => { my.creditButton.setStyle({fill: '#ff0' }) });
 
         //this.scene.start("upgradeScene"); 
+
+        this.vfx = this.add.particles(game.config.width, 100, "image", {
+            alpha: {start: 1, end: 0, ease: 'sine.in'},
+            lifespan: 1000,
+            y: {min: 0, max: 100},
+            angle: { min: 90, max: 270 },
+            scale: { start: 0.25, end: 0, ease: 'sine.in' },
+            speed: { min: 500, max: 1000 },
+            stopAfter: 1000,
+            emitting: false
+        });
+        
+        this.vfx.explode(100);
+
+        
     }
 }
 
@@ -54,4 +60,10 @@ function shuffle(array) {
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex], array[currentIndex]];
     }
+}
+
+function randomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.ceil(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }

@@ -1,0 +1,30 @@
+class Load extends Phaser.Scene {
+    constructor() {
+        super("loadScene");
+    }
+
+    preload() {
+        this.load.setPath("./assets/");
+        this.load.bitmapFont("rocketSquare", "KennyRocketSquare_0.png", "KennyRocketSquare.fnt");
+
+        this.load.setPath("./assets/");
+        // body
+        this.load.image("character", "paddle.png");
+
+        this.load.image("image", "ball.png");
+
+        this.load.audio("hit", "/audio/hit.ogg");
+        this.load.audio("score", "/audio/score.ogg");
+
+        this.load.audio("music", "/audio/bgMusic.mp3");
+    }
+
+    create() {
+
+        /*let bg = this.sound.add("music");
+        bg.loop = true;
+        bg.play();*/
+
+        this.scene.start("startScene"); 
+    }
+}

@@ -21,31 +21,34 @@ class Control extends Phaser.Scene {
 
     create() {
         let my = this.my;
-        my.text.gameName = this.add.bitmapText(game.config.width/4, game.config.height/8, "rocketSquare", "Shoot the cards!").setOrigin(0.5, 0.5);
+        my.text.gameName = this.add.bitmapText(game.config.width/4, game.config.height/8, "rocketSquare", "Pong!  \nWith upgrades!").setOrigin(0.5, 0.5);
         my.text.gameName.rotation = 25;
 
-        my.card1 = this.add.sprite(125, 175, "cards", "S1.png");
+        /*my.card1 = this.add.sprite(125, 175, "cards", "S1.png");
         my.card2 = this.add.sprite(175, 175, "cards", "D13.png");
         my.card3 = this.add.sprite(225, 175, "cards", "C5.png");
-        my.card4 = this.add.sprite(275, 175, "cards", "H2.png");
+        my.card4 = this.add.sprite(275, 175, "cards", "H2.png");*/
 
-        my.text.controls = this.add.bitmapText(game.config.width/4*3, game.config.height/3.5, "rocketSquare", "Use A & D to move! \n Space to shoot!").setOrigin(0.5, 0.5);
+        my.text.controls = this.add.bitmapText(game.config.width/4*2.8, game.config.height/3.5, "rocketSquare", "P1 use W & S to move!").setOrigin(0.5, 0.5);
         my.text.controls.rotation = -25;
+        my.text.controls1 = this.add.bitmapText(game.config.width/4*2.8, game.config.height/3, "rocketSquare", "P2 use up & down arrow to move!").setOrigin(0.5, 0.5);
+        my.text.controls1.setScale(0.70, 0.70);
+        my.text.controls1.rotation = -25;
 
-        my.demoPlayer = this.add.sprite(550, 300, "character");
-        my.demoAttack = this.add.sprite(550, 240, "diceNum", "dieWhite_border6.png");
-        my.demoAttack.setScale(0.5, 0.5);
+        //my.demoPlayer = this.add.sprite(550, 300, "character");
+        //my.demoAttack = this.add.sprite(550, 240, "diceNum", "dieWhite_border6.png");
+        //my.demoAttack.setScale(0.5, 0.5);
 
-        my.text.joker = this.add.bitmapText(game.config.width/3.5, game.config.height/2, "rocketSquare", "Watch out for Joker cards \n and their projectiles!").setOrigin(0.5, 0.5);
+        my.text.joker = this.add.bitmapText(game.config.width/3.5, game.config.height/2, "rocketSquare", "If you lose, get an upgrade!").setOrigin(0.5, 0.5);
         my.text.joker.setScale(0.65, 0.65);
         my.text.joker.rotation = 25;
 
-        my.jokerR = this.add.sprite(125, 400, "cards", "rJ.png");
+        /*my.jokerR = this.add.sprite(125, 400, "cards", "rJ.png");
         my.jokerB = this.add.sprite(175, 400, "cards", "bJ.png");
         my.jProjectile = this.add.sprite(240, 400, "cards", "blankFront.png");
-        my.jProjectile.rotation = Math.PI / 2;
+        my.jProjectile.rotation = Math.PI / 2;*/
 
-        my.text.border = this.add.bitmapText(game.config.width/4*2.8, game.config.height/4*3.1, "rocketSquare", "Don't let the cards pass the red border!").setOrigin(0.5, 0.5);
+        my.text.border = this.add.bitmapText(game.config.width/4*2.8, game.config.height/4*3.1, "rocketSquare", "First to 7 wins!").setOrigin(0.5, 0.5);
         my.text.border.setScale(0.5, 0.5);
 
         this.add.rectangle(game.config.width/2, game.config.height, game.config.width, game.config.height/5 * 2, 0xff0000);

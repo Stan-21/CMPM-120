@@ -41,13 +41,21 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     sizeFunction() {
-        this.displayWidth += 50;
+        this.displayWidth += 30;
         console.log("+size");
     }
 
     scoreFunction() {
         this.scene.updateScore(this.x < game.config.width / 2);
         console.log("+score");
+    }
+
+    addBumper() {
+        if (this.x < game.config.width / 2) {
+            this.scene.createBumper(game.config.width / 2, game.config.width/8*7);
+        } else {
+            this.scene.createBumper(game.config.width/8, game.config.width / 2);
+        }
     }
 
 }

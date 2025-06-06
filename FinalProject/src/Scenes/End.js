@@ -19,8 +19,8 @@ class End extends Phaser.Scene {
     create() {
         let my = this.my;
         my.text.gameName = this.add.bitmapText(game.config.width/2, game.config.height/4, "rocketSquare", this.status + "wins!").setOrigin(0.5, 0.5);
-        my.score = this.add.text(game.config.width/2, game.config.height/2.5, "Final score: " + this.finalScore, 
-            {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
+        //my.score = this.add.text(game.config.width/2, game.config.height/2.5, "Final score: " + this.finalScore, 
+        //    {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
         my.retryButton = this.add.text(game.config.width/2, game.config.height/2, "Try again?", {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
         my.quitButton = this.add.text(game.config.width/2, game.config.height/6 * 3.5, "Quit", {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
 
