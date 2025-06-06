@@ -8,6 +8,7 @@ class Start extends Phaser.Scene {
     }
 
     create() {
+        // Create visual text for start screen
         let my = this.my;
         my.text.gameName = this.add.bitmapText(game.config.width/2, game.config.height/4, "rocketSquare", "Pong!").setOrigin(0.5, 0.5);
         my.startButton = this.add.text(game.config.width/2, game.config.height/2.5, 'Start', {fill: '#0f0', fontSize: 30}).setOrigin(0.5, 0.5);
