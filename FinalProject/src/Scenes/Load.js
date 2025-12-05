@@ -12,7 +12,9 @@ class Load extends Phaser.Scene {
         // body
         this.load.image("character", "paddle.png");
 
-        this.load.image("image", "ball.png");
+        this.load.image("ball", "ball.png");
+
+        this.load.image("bumper", "bumper.png");
 
         this.load.audio("hit", "/audio/hit.ogg");
         this.load.audio("score", "/audio/score.ogg");
@@ -26,7 +28,6 @@ class Load extends Phaser.Scene {
         /*let bg = this.sound.add("music");
         bg.loop = true;
         bg.play();*/
-
         this.scene.start("startScene"); 
     }
 }

@@ -32,7 +32,7 @@ class Start extends Phaser.Scene {
         my.creditButton.on('pointerout', () => { my.creditButton.setStyle({fill: '#0f0' }) });
         my.creditButton.on('pointerover', () => { my.creditButton.setStyle({fill: '#ff0' }) });
 
-        this.vfx = this.add.particles(game.config.width, 100, "image", {
+        this.vfx = this.add.particles(game.config.width, 100, "ball", {
             alpha: {start: 1, end: 0, ease: 'sine.in'},
             lifespan: 1000,
             y: {min: 0, max: 100},
@@ -44,8 +44,6 @@ class Start extends Phaser.Scene {
         });
         
         this.vfx.explode(100);
-
-        
     }
 }
 
@@ -66,4 +64,8 @@ function randomInt(min, max) {
     min = Math.ceil(min);
     max = Math.ceil(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function sleep(ms) { // Delays action
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

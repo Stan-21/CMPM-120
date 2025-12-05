@@ -13,11 +13,11 @@
             "scaleInEditor": 1
         },
         "platformer-level-1.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 5,
+            "scale": 4,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 668.6666666666666,
-                "y": 205.66666666666669
+                "x": 293.5,
+                "y": 159.125
             }
         },
         "platformer-level-1.tmx#monochrome_tilemap_packed": {

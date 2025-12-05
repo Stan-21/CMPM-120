@@ -23,8 +23,11 @@ class Ball extends Phaser.GameObjects.Sprite {
         this.x += this.velocityX;
         this.y += this.velocityY;
 
-        if (this.y < 0 || this.y > game.config.height) {
-            this.velocityY *= -1;
+        if (this.y <= 0) {
+            this.velocityY = Math.abs(this.velocityY);
+        }
+        if (this.y >= game.config.height) {
+            this.velocityY = -this.velocityY;
         }
     }
 
